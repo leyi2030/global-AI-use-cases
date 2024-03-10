@@ -3,14 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Projects in {{ function_name }}</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>{{ function_name }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
-    <h1>Projects in {{ function_name }}</h1>
-    <div id="projects"></div>
+    <h1>{{ function_name }}</h1>
+    <ul>
+        {% for project in projects %}
+        <li><a href="#" class="project-link" data-toggle="modal" data-target="#{{ project['Capabilities'] }}">{{ project['Capabilities'] }}</a></li>
+        {% endfor %}
+    </ul>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <script src="script.js"></script>
+    {% for project in projects %}
+    <div class="modal fade" id="{{ project['Capabilities'] }}" tabindex="-1" role="dialog" aria-labelledby="{{ project['Capabilities'] }}Label" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="{{ project['Capabilities'] }}Label">{{ project['Capabilities'] }}</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p><strong>Description:</strong> {{ project['Description'] }}</p>
+                    <p><strong>Link:</strong> <a href="{{ project['Link'] }}">{{ project['Link'] }}</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>
+
